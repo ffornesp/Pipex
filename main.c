@@ -6,7 +6,7 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 11:24:06 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/05/19 11:35:37 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/05/22 14:40:16 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int	main(int argc, char *argv[])
 		free(line);
 		close(fd);
 		printf("%s\n", input);
+		free(input);
 	}
 	return (0);
 }
