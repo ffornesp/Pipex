@@ -6,7 +6,7 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 16:39:57 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/05/23 19:11:33 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/05/23 19:16:06 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,9 @@ char	*get_path(char **cmd, char *line_cmd, char **envp)
 	path = join_path_cmd(path, cmd);
 	out = get_cmd_path(path);
 	if (!out)
+	{
+		free(out);
 		error_handle(line_cmd, 3);
+	}
 	return (out);
 }
