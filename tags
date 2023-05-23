@@ -1,0 +1,130 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+AR	Makefile	/^AR = ar rc$/;"	m
+AR	libft/Makefile	/^AR = ar rc$/;"	m
+BUFFER_SIZE	libft/include/get_next_line.h	/^# define BUFFER_SIZE /;"	d
+CC	Makefile	/^CC = gcc$/;"	m
+CC	libft/Makefile	/^CC = gcc$/;"	m
+CFLAGS	Makefile	/^CFLAGS = -Wall -Wextra -Werror$/;"	m
+CFLAGS	libft/Makefile	/^CFLAGS = -Wall -Wextra -Werror$/;"	m
+FT_PRINTF_H	libft/include/ft_printf.h	/^# define FT_PRINTF_H$/;"	d
+GET_NEXT_LINE_H	libft/include/get_next_line.h	/^# define GET_NEXT_LINE_H$/;"	d
+HDRS	Makefile	/^HDRS = $(addprefix $(HDR_DIR), $(HDR_FILES))$/;"	m
+HDRS	libft/Makefile	/^HDRS = $(addprefix $(HDR_DIR), $(HDR_FILES))$/;"	m
+HDR_DIR	Makefile	/^HDR_DIR = include\/$/;"	m
+HDR_DIR	libft/Makefile	/^HDR_DIR = include\/$/;"	m
+HDR_FILES	Makefile	/^HDR_FILES = pipex.h$/;"	m
+HDR_FILES	libft/Makefile	/^HDR_FILES = libft.h ft_printf.h get_next_line.h$/;"	m
+INCLUDE	Makefile	/^INCLUDE  = -I .\/include\/ -I .\/libft\/include\/$/;"	m
+INCLUDES	libft/Makefile	/^INCLUDES = include\/$/;"	m
+LIBFT	Makefile	/^LIBFT = $(addprefix $(LIBFT_DIR), $(LIBFT_FILE))$/;"	m
+LIBFT_DIR	Makefile	/^LIBFT_DIR = libft\/$/;"	m
+LIBFT_FILE	Makefile	/^LIBFT_FILE = libft.a$/;"	m
+LIBFT_H	libft/include/libft.h	/^# define LIBFT_H$/;"	d
+NAME	Makefile	/^NAME = pipex$/;"	m
+NAME	libft/Makefile	/^NAME = libft.a$/;"	m
+OBJS	Makefile	/^OBJS = $(addprefix $(OBJS_DIR), $(OBJ_FILES))$/;"	m
+OBJS	libft/Makefile	/^OBJS = $(OBJS_LIBFT) $(OBJS_PRINTF) $(OBJS_GNL)$/;"	m
+OBJS_DIR	Makefile	/^OBJS_DIR =	objs\/$/;"	m
+OBJS_GNL	libft/Makefile	/^OBJS_GNL = $(addprefix $(OBJS_GNL_DIR), $(OBJ_GNL_FILES))$/;"	m
+OBJS_GNL_DIR	libft/Makefile	/^OBJS_GNL_DIR =	get_next_line\/objs\/$/;"	m
+OBJS_LIBFT	libft/Makefile	/^OBJS_LIBFT = $(addprefix $(OBJS_LIBFT_DIR), $(OBJ_LIBFT_FILES))$/;"	m
+OBJS_LIBFT_DIR	libft/Makefile	/^OBJS_LIBFT_DIR =	objs\/$/;"	m
+OBJS_PRINTF	libft/Makefile	/^OBJS_PRINTF = $(addprefix $(OBJS_PRINTF_DIR), $(OBJ_PRINTF_FILES))$/;"	m
+OBJS_PRINTF_DIR	libft/Makefile	/^OBJS_PRINTF_DIR =	ft_printf\/objs\/$/;"	m
+OBJ_FILES	Makefile	/^OBJ_FILES = $(SRC_FILES:.c=.o)$/;"	m
+OBJ_GNL_FILES	libft/Makefile	/^OBJ_GNL_FILES = $(SRC_GNL_FILES:.c=.o)$/;"	m
+OBJ_LIBFT_FILES	libft/Makefile	/^OBJ_LIBFT_FILES =	$(SRC_FILES:.c=.o)$/;"	m
+OBJ_PRINTF_FILES	libft/Makefile	/^OBJ_PRINTF_FILES =	$(SRC_PRINTF_FILES:.c=.o)$/;"	m
+PIPEX_H	include/pipex.h	/^# define PIPEX_H$/;"	d
+RM	Makefile	/^RM = rm -f$/;"	m
+RM	libft/Makefile	/^RM = rm -f$/;"	m
+SRCS_DIR	Makefile	/^SRCS_DIR = srcs\/$/;"	m
+SRCS_GNL	libft/Makefile	/^SRCS_GNL = $(addprefix $(SRCS_GNL_DIR), $(SRC_GNL_FILES))$/;"	m
+SRCS_GNL_DIR	libft/Makefile	/^SRCS_GNL_DIR = get_next_line\/$/;"	m
+SRCS_LIBFT	libft/Makefile	/^SRCS_LIBFT = $(addprefix $(SRCS_LIBFT_DIR), $(SRC_FILES))$/;"	m
+SRCS_LIBFT_DIR	libft/Makefile	/^SRCS_LIBFT_DIR = srcs\/$/;"	m
+SRCS_PRINTF	libft/Makefile	/^SRCS_PRINTF = $(addprefix $(SRCS_PRINTF_DIR), $(SRC_PRINTF_FILES))$/;"	m
+SRCS_PRINTF_DIR	libft/Makefile	/^SRCS_PRINTF_DIR = ft_printf\/srcs\/$/;"	m
+SRC_FILES	Makefile	/^SRC_FILES =	 pipex.c get_path.c error_handle.c$/;"	m
+SRC_FILES	libft/Makefile	/^SRC_FILES =	 ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c ft_isprint.c \\$/;"	m
+SRC_GNL_FILES	libft/Makefile	/^SRC_GNL_FILES =	get_next_line.c$/;"	m
+SRC_PRINTF_FILES	libft/Makefile	/^SRC_PRINTF_FILES = print_c.c print_d.c print_p.c print_s.c print_u.c print_x.c \\$/;"	m
+base	libft/srcs/ft_atoi_base.c	/^static int	base(int c, int base)$/;"	f	file:
+calc_size	libft/srcs/ft_itoa.c	/^static void	calc_size(long int n, size_t *size)$/;"	f	file:
+child_p	srcs/pipex.c	/^static void	child_p(int *pip_fd, char **argv, char **envp)$/;"	f	file:
+content	libft/include/libft.h	/^	void			*content;$/;"	m	struct:s_list
+convert	libft/ft_printf/srcs/ft_printf.c	/^static int	convert(char *str, va_list args, int count)$/;"	f	file:
+create_str	libft/srcs/ft_itoa.c	/^static void	create_str(char *str, long int n, size_t size)$/;"	f	file:
+error_handle	srcs/error_handle.c	/^void	error_handle(char *filename, int id)$/;"	f
+ft_atoi	libft/srcs/ft_atoi.c	/^int	ft_atoi(const char *str)$/;"	f
+ft_atoi_base	libft/srcs/ft_atoi_base.c	/^int	ft_atoi_base(const char *str, int arg_base)$/;"	f
+ft_bzero	libft/srcs/ft_bzero.c	/^void	ft_bzero(void *s, size_t n)$/;"	f
+ft_calloc	libft/srcs/ft_calloc.c	/^void	*ft_calloc(size_t count, size_t size)$/;"	f
+ft_delete	libft/srcs/ft_delete.c	/^void	*ft_delete(void *p)$/;"	f
+ft_isalnum	libft/srcs/ft_isalnum.c	/^int	ft_isalnum(int c)$/;"	f
+ft_isalpha	libft/srcs/ft_isalpha.c	/^int	ft_isalpha(int c)$/;"	f
+ft_isascii	libft/srcs/ft_isascii.c	/^int	ft_isascii(int c)$/;"	f
+ft_isdigit	libft/srcs/ft_isdigit.c	/^int	ft_isdigit(int i)$/;"	f
+ft_isprint	libft/srcs/ft_isprint.c	/^int	ft_isprint(int c)$/;"	f
+ft_itoa	libft/srcs/ft_itoa.c	/^char	*ft_itoa(int n)$/;"	f
+ft_lstadd_back	libft/srcs/ft_lstadd_back.c	/^void	ft_lstadd_back(t_list **lst, t_list *new)$/;"	f
+ft_lstadd_front	libft/srcs/ft_lstadd_front.c	/^void	ft_lstadd_front(t_list **lst, t_list *new)$/;"	f
+ft_lstclear	libft/srcs/ft_lstclear.c	/^void	ft_lstclear(t_list **lst, void (*del)(void *))$/;"	f
+ft_lstdelone	libft/srcs/ft_lstdelone.c	/^void	ft_lstdelone(t_list *lst, void (*del)(void *))$/;"	f
+ft_lstiter	libft/srcs/ft_lstiter.c	/^void	ft_lstiter(t_list *lst, void (*f)(void *))$/;"	f
+ft_lstlast	libft/srcs/ft_lstlast.c	/^t_list	*ft_lstlast(t_list *lst)$/;"	f
+ft_lstmap	libft/srcs/ft_lstmap.c	/^t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))$/;"	f
+ft_lstnew	libft/srcs/ft_lstnew.c	/^t_list	*ft_lstnew(void *content)$/;"	f
+ft_lstpos	libft/srcs/ft_lstpos.c	/^int	ft_lstpos(t_list *lst, int *value)$/;"	f
+ft_lstsize	libft/srcs/ft_lstsize.c	/^int	ft_lstsize(t_list *lst)$/;"	f
+ft_memchr	libft/srcs/ft_memchr.c	/^void	*ft_memchr(const void *s, int c, size_t n)$/;"	f
+ft_memcmp	libft/srcs/ft_memcmp.c	/^int	ft_memcmp(const void *s1, const void *s2, size_t n)$/;"	f
+ft_memcpy	libft/srcs/ft_memcpy.c	/^void	*ft_memcpy(void *dst, const void *src, size_t n)$/;"	f
+ft_memmove	libft/srcs/ft_memmove.c	/^void	*ft_memmove(void *dst, const void *src, size_t len)$/;"	f
+ft_memset	libft/srcs/ft_memset.c	/^void	*ft_memset(void *b, int c, size_t len)$/;"	f
+ft_printf	libft/ft_printf/srcs/ft_printf.c	/^int	ft_printf(const char *str, ...)$/;"	f
+ft_putchar_fd	libft/srcs/ft_putchar_fd.c	/^void	ft_putchar_fd(char c, int fd)$/;"	f
+ft_putendl_fd	libft/srcs/ft_putendl_fd.c	/^void	ft_putendl_fd(char *s, int fd)$/;"	f
+ft_putnbr_fd	libft/srcs/ft_putnbr_fd.c	/^void	ft_putnbr_fd(int n, int fd)$/;"	f
+ft_putstr_fd	libft/srcs/ft_putstr_fd.c	/^void	ft_putstr_fd(char *s, int fd)$/;"	f
+ft_split	libft/srcs/ft_split.c	/^char	**ft_split(char const *s, char c)$/;"	f
+ft_strchr	libft/srcs/ft_strchr.c	/^char	*ft_strchr(const char *s, int c)$/;"	f
+ft_strdup	libft/srcs/ft_strdup.c	/^char	*ft_strdup(const char *s1)$/;"	f
+ft_striteri	libft/srcs/ft_striteri.c	/^void	ft_striteri(char *s, void (*f)(unsigned int, char*))$/;"	f
+ft_strjoin	libft/srcs/ft_strjoin.c	/^char	*ft_strjoin(const char *s1, const char *s2)$/;"	f
+ft_strlcat	libft/srcs/ft_strlcat.c	/^size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)$/;"	f
+ft_strlcpy	libft/srcs/ft_strlcpy.c	/^size_t	ft_strlcpy(char *dest, const char *src, size_t dstsize)$/;"	f
+ft_strlen	libft/srcs/ft_strlen.c	/^size_t	ft_strlen(const char *str)$/;"	f
+ft_strmapi	libft/srcs/ft_strmapi.c	/^char	*ft_strmapi(const char *s, char (*f)(unsigned int, char))$/;"	f
+ft_strncmp	libft/srcs/ft_strncmp.c	/^int	ft_strncmp(const char *s1, const char *s2, size_t n)$/;"	f
+ft_strnstr	libft/srcs/ft_strnstr.c	/^char	*ft_strnstr(const char *haystack, const char *needle, size_t len)$/;"	f
+ft_strrchr	libft/srcs/ft_strrchr.c	/^char	*ft_strrchr(const char *s, int c)$/;"	f
+ft_strtrim	libft/srcs/ft_strtrim.c	/^char	*ft_strtrim(const char *s1, const char *set)$/;"	f
+ft_substr	libft/srcs/ft_substr.c	/^char	*ft_substr(const char *s, unsigned int start, size_t len)$/;"	f
+ft_tolower	libft/srcs/ft_tolower.c	/^int	ft_tolower(int c)$/;"	f
+ft_toupper	libft/srcs/ft_toupper.c	/^int	ft_toupper(int c)$/;"	f
+get_cmd_path	srcs/get_path.c	/^static char	*get_cmd_path(char **path)$/;"	f	file:
+get_line	libft/get_next_line/get_next_line.c	/^static char	*get_line(char *str)$/;"	f	file:
+get_next_line	libft/get_next_line/get_next_line.c	/^char	*get_next_line(int fd)$/;"	f
+get_path	srcs/get_path.c	/^char	*get_path(char **cmd, char *line_cmd, char **envp)$/;"	f
+is_whitespace	libft/srcs/ft_atoi_base.c	/^static int	is_whitespace(char const c)$/;"	f	file:
+join_path_cmd	srcs/get_path.c	/^static char	**join_path_cmd(char **path, char **cmd)$/;"	f	file:
+main	srcs/pipex.c	/^int	main(int argc, char *argv[], char *envp[])$/;"	f
+next	libft/include/libft.h	/^	struct s_list	*next;$/;"	m	struct:s_list	typeref:struct:s_list::s_list
+parent_p	srcs/pipex.c	/^static void	parent_p(int *pip_fd, char **argv, char **envp)$/;"	f	file:
+print_c	libft/ft_printf/srcs/print_c.c	/^int	print_c(va_list args, int count)$/;"	f
+print_d	libft/ft_printf/srcs/print_d.c	/^int	print_d(va_list args, int count)$/;"	f
+print_p	libft/ft_printf/srcs/print_p.c	/^int	print_p(va_list args, int count)$/;"	f
+print_s	libft/ft_printf/srcs/print_s.c	/^int	print_s(va_list args, int count)$/;"	f
+print_u	libft/ft_printf/srcs/print_u.c	/^int	print_u(va_list args, int count)$/;"	f
+print_x	libft/ft_printf/srcs/print_x.c	/^int	print_x(va_list args, int count, char x)$/;"	f
+read_to_buff	libft/get_next_line/get_next_line.c	/^static char	*read_to_buff(int fd, char *buffer, char *line)$/;"	f	file:
+s_list	libft/include/libft.h	/^typedef struct s_list$/;"	s
+save_remains	libft/get_next_line/get_next_line.c	/^static char	*save_remains(char *str)$/;"	f	file:
+save_string	libft/srcs/ft_split.c	/^static char	**save_string(const char *s, char c, size_t n, int j)$/;"	f	file:
+t_list	libft/include/libft.h	/^}	t_list;$/;"	t	typeref:struct:s_list

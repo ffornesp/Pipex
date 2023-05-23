@@ -6,7 +6,7 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 14:24:50 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/05/23 18:09:13 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/05/23 18:28:47 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,17 @@ int	main(int argc, char *argv[], char *envp[])
 {
 	int		pip_fd[2];
 	int		pid;
+	int		i;
 
+	i = 0;
 	if (argc != 5)
 		error_handle(NULL, 0);
+	while (i < argc)
+	{
+		if (*argv[i] == '\0' || argv[i] == NULL)
+			error_handle("Invalid arguments\n", 4);
+		i++;
+	}
 	if (pipe(pip_fd) < 0)
 		error_handle(NULL, -1);
 	pid = fork();

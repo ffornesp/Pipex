@@ -6,7 +6,7 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 16:12:30 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/05/23 17:58:36 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/05/23 18:23:25 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ void	error_handle(char *filename, int id)
 			ft_putstr_fd(filename, 2);
 			ft_putstr_fd(": Command not found\n", 2);
 		}
+		else if (id == 4)
+			ft_putstr_fd(filename, 2);
 		else if (id < 0)
 			perror(NULL);
 	}
