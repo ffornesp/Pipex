@@ -6,92 +6,79 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 14:24:50 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/05/22 17:59:00 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/05/23 18:09:13 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "ft_printf.h"
 #include "get_next_line.h"
+#include "pipex.h"
 #include <fcntl.h>
 #include <unistd.h>
 #include <stdlib.h>
-#include <stdio.h>
 #include <string.h>
-#include <sys/errno.h>
 
-/*static char	*read_file(int fd)
+static void	child_p(int *pip_fd, char **argv, char **envp)
 {
-	char	*line;
-	char	*output;
-	char	*aux;
+	int		infile_fd;
+	char	**cmd;
+	char	*path;
 
-	output = ft_strdup("");
-	line = get_next_line(fd);
-	while (line)
-	{
-		aux = output;
-		output = ft_strjoin(output, line);
-		free(aux);
-		free(line);
-		line = get_next_line(fd);
-	}
-	free(line);
-	return (output);
-}*/
-
-static void	error_handle(char *filename, int id)
-{
-	if (!filename)
-		ft_putstr_fd("Usage: ./pipex file1 \"cmd1\" \"cmd2\" file2\n", 2);
-	else
-	{
-		ft_putstr_fd("pipex: ", 2);
-		if (id == 1 && access(filename, R_OK) < 0)
-			perror(filename);
-		else if (id == 2 && access(filename, W_OK) < 0)
-			perror(filename);
-		else if (id < 0)
-			perror(NULL);
-	}
-	exit(0);
-}
-
-static void	child_p(int *pip_fd, int infile_fd, char **argv, char **envp)
-{
+	infile_fd = open(argv[1], O_RDONLY);
+	if (infile_fd < 0)
+		error_handle(argv[1], 1);
+	close(pip_fd[0]);
+	dup2(infile_fd, 0);
+	dup2(pip_fd[1], 1);
+	cmd = ft_split(argv[2], ' ');
+	path = get_path(cmd, argv[2], envp);
+	if (execve(path, cmd, envp) < 0)
+		error_handle(NULL, -1);
+	free(path);
+	close(pip_fd[1]);
+	close(infile_fd);
 	return ;
 }
 
-static void	parent_p(int *pip_fd, int outfile_fd, char **argv, char **envp)
+static void	parent_p(int *pip_fd, char **argv, char **envp)
 {
+	int		outfile_fd;
+	char	**cmd;
+	char	*path;
+
+	outfile_fd = open(argv[4], O_TRUNC | O_CREAT | O_RDWR, 00644);
+	if (outfile_fd < 0)
+		error_handle(argv[4], 2);
+	close(pip_fd[1]);
+	dup2(pip_fd[0], 0);
+	dup2(outfile_fd, 1);
+	cmd = ft_split(argv[3], ' ');
+	path = get_path(cmd, argv[3], envp);
+	if (execve(path, cmd, envp) < 0)
+		error_handle(NULL, -1);
+	free(path);
+	close(pip_fd[0]);
+	close(outfile_fd);
 	return ;
 }
 
 int	main(int argc, char *argv[], char *envp[])
 {
-	int		infile_fd;
-	int		outfile_fd;
 	int		pip_fd[2];
 	int		pid;
 
 	if (argc != 5)
 		error_handle(NULL, 0);
-	infile_fd = open(argv[1], O_RDONLY);
-	if (infile_fd < 0)
-		error_handle(argv[1], 1);
-	outfile_fd = open(argv[1], O_RDWR);
-	if (outfile_fd < 0)
-		error_handle(argv[4], 2);
-	if (pipe(pip_fd) == -1)
+	if (pipe(pip_fd) < 0)
 		error_handle(NULL, -1);
 	pid = fork();
 	if (pid < 0)
 		error_handle(NULL, -1);
+	wait(NULL);
 	if (pid == 0)
-		child_p(pip_fd, infile_fd, argv, envp);
+		child_p(pip_fd, argv, envp);
 	else
-		ft_printf("Parent\n");
-	close(infile_fd);
-	close(outfile_fd);
+		parent_p(pip_fd, argv, envp);
 	return (0);
 }
