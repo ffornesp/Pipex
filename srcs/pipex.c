@@ -6,7 +6,7 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 14:24:50 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/05/23 18:28:47 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/05/23 19:09:20 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,20 +46,26 @@ static void	parent_p(int *pip_fd, char **argv, char **envp)
 	int		outfile_fd;
 	char	**cmd;
 	char	*path;
+	int		pid;
 
-	outfile_fd = open(argv[4], O_TRUNC | O_CREAT | O_RDWR, 00644);
-	if (outfile_fd < 0)
-		error_handle(argv[4], 2);
+	pid = fork();
 	close(pip_fd[1]);
-	dup2(pip_fd[0], 0);
-	dup2(outfile_fd, 1);
-	cmd = ft_split(argv[3], ' ');
-	path = get_path(cmd, argv[3], envp);
-	if (execve(path, cmd, envp) < 0)
-		error_handle(NULL, -1);
-	free(path);
+	if (pid == 0)
+	{
+		outfile_fd = open(argv[4], O_TRUNC | O_CREAT | O_RDWR, 00644);
+		if (outfile_fd < 0)
+			error_handle(argv[4], 2);
+		dup2(pip_fd[0], 0);
+		dup2(outfile_fd, 1);
+		cmd = ft_split(argv[3], ' ');
+		path = get_path(cmd, argv[3], envp);
+		if (execve(path, cmd, envp) < 0)
+			error_handle(NULL, -1);
+		free(path);
+		close(outfile_fd);
+	}
 	close(pip_fd[0]);
-	close(outfile_fd);
+	wait(NULL);
 	return ;
 }
 
@@ -83,10 +89,10 @@ int	main(int argc, char *argv[], char *envp[])
 	pid = fork();
 	if (pid < 0)
 		error_handle(NULL, -1);
-	wait(NULL);
 	if (pid == 0)
 		child_p(pip_fd, argv, envp);
 	else
 		parent_p(pip_fd, argv, envp);
+	wait(NULL);
 	return (0);
 }
