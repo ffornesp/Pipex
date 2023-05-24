@@ -6,7 +6,7 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 14:24:50 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/05/24 13:33:34 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/05/24 14:26:46 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ static void	process_p(int *pip_fd1, int *pip_fd2, char *argv, char **envp)
 	int		pid;
 
 	pid = fork();
-	close(pip_fd1[1]);
 	close(pip_fd2[0]);
 	if (pid == 0)
 	{
@@ -105,21 +104,23 @@ static void	pipe_handler(char **argv, char **envp)
 		error_handle(NULL, -1);
 	if (pid == 0)
 		init_p(pip_fd1, argv, envp);
-	else
+	else if (argv[i + 2])
 	{
-		while (argv[i + 2])
+		if (pipe(pip_fd2) < 0)
+			error_handle(NULL, -1);
+		pid = fork();
+		close(pip_fd1[1]);
+		if (pid == 0)
+			process_p(pip_fd1, pip_fd2, argv[i], envp);
+		i++;
+		if (pid != 0)
 		{
-		//	if (pipe(pip_fd2) < 0)
-		//		error_handle(NULL, -1);
-			process_p(pip_fd1, pip_fd1, argv[i], envp);
-			i++;
+			close(pip_fd1[0]);
+			finish_p(pip_fd2, i, argv, envp);
 		}
 	}
-	if (pid != 0)
-	{
+	else
 		finish_p(pip_fd1, i, argv, envp);
-		wait(NULL);
-	}
 }
 
 int	main(int argc, char *argv[], char *envp[])
