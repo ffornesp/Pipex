@@ -50,7 +50,7 @@ SRCS_LIBFT	libft/Makefile	/^SRCS_LIBFT = $(addprefix $(SRCS_LIBFT_DIR), $(SRC_FI
 SRCS_LIBFT_DIR	libft/Makefile	/^SRCS_LIBFT_DIR = srcs\/$/;"	m
 SRCS_PRINTF	libft/Makefile	/^SRCS_PRINTF = $(addprefix $(SRCS_PRINTF_DIR), $(SRC_PRINTF_FILES))$/;"	m
 SRCS_PRINTF_DIR	libft/Makefile	/^SRCS_PRINTF_DIR = ft_printf\/srcs\/$/;"	m
-SRC_FILES	Makefile	/^SRC_FILES =	 pipex.c get_path.c error_handle.c$/;"	m
+SRC_FILES	Makefile	/^SRC_FILES =	 pipex_bonus.c get_path.c error_handle.c$/;"	m
 SRC_FILES	libft/Makefile	/^SRC_FILES =	 ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c ft_isprint.c \\$/;"	m
 SRC_GNL_FILES	libft/Makefile	/^SRC_GNL_FILES =	get_next_line.c$/;"	m
 SRC_PRINTF_FILES	libft/Makefile	/^SRC_PRINTF_FILES = print_c.c print_d.c print_p.c print_s.c print_u.c print_x.c \\$/;"	m
@@ -61,6 +61,7 @@ content	libft/include/libft.h	/^	void			*content;$/;"	m	struct:s_list
 convert	libft/ft_printf/srcs/ft_printf.c	/^static int	convert(char *str, va_list args, int count)$/;"	f	file:
 create_str	libft/srcs/ft_itoa.c	/^static void	create_str(char *str, long int n, size_t size)$/;"	f	file:
 error_handle	srcs/error_handle.c	/^void	error_handle(char *filename, int id)$/;"	f
+finish_p	srcs/pipex_bonus.c	/^static void	finish_p(int *pip_fd, int i, char **argv, char **envp)$/;"	f	file:
 ft_atoi	libft/srcs/ft_atoi.c	/^int	ft_atoi(const char *str)$/;"	f
 ft_atoi_base	libft/srcs/ft_atoi_base.c	/^int	ft_atoi_base(const char *str, int arg_base)$/;"	f
 ft_bzero	libft/srcs/ft_bzero.c	/^void	ft_bzero(void *s, size_t n)$/;"	f
@@ -112,17 +113,21 @@ get_cmd_path	srcs/get_path.c	/^static char	*get_cmd_path(char **path)$/;"	f	file
 get_line	libft/get_next_line/get_next_line.c	/^static char	*get_line(char *str)$/;"	f	file:
 get_next_line	libft/get_next_line/get_next_line.c	/^char	*get_next_line(int fd)$/;"	f
 get_path	srcs/get_path.c	/^char	*get_path(char **cmd, char *line_cmd, char **envp)$/;"	f
+init_p	srcs/pipex_bonus.c	/^static void	init_p(int *pip_fd, char **argv, char **envp)$/;"	f	file:
 is_whitespace	libft/srcs/ft_atoi_base.c	/^static int	is_whitespace(char const c)$/;"	f	file:
 join_path_cmd	srcs/get_path.c	/^static char	**join_path_cmd(char **path, char **cmd)$/;"	f	file:
 main	srcs/pipex.c	/^int	main(int argc, char *argv[], char *envp[])$/;"	f
+main	srcs/pipex_bonus.c	/^int	main(int argc, char *argv[], char *envp[])$/;"	f
 next	libft/include/libft.h	/^	struct s_list	*next;$/;"	m	struct:s_list	typeref:struct:s_list::s_list
 parent_p	srcs/pipex.c	/^static void	parent_p(int *pip_fd, char **argv, char **envp)$/;"	f	file:
+pipe_handler	srcs/pipex_bonus.c	/^static void	pipe_handler(char **argv, char **envp)$/;"	f	file:
 print_c	libft/ft_printf/srcs/print_c.c	/^int	print_c(va_list args, int count)$/;"	f
 print_d	libft/ft_printf/srcs/print_d.c	/^int	print_d(va_list args, int count)$/;"	f
 print_p	libft/ft_printf/srcs/print_p.c	/^int	print_p(va_list args, int count)$/;"	f
 print_s	libft/ft_printf/srcs/print_s.c	/^int	print_s(va_list args, int count)$/;"	f
 print_u	libft/ft_printf/srcs/print_u.c	/^int	print_u(va_list args, int count)$/;"	f
 print_x	libft/ft_printf/srcs/print_x.c	/^int	print_x(va_list args, int count, char x)$/;"	f
+process_p	srcs/pipex_bonus.c	/^static void	process_p(int *pip_fd1, int *pip_fd2, char *argv, char **envp)$/;"	f	file:
 read_to_buff	libft/get_next_line/get_next_line.c	/^static char	*read_to_buff(int fd, char *buffer, char *line)$/;"	f	file:
 s_list	libft/include/libft.h	/^typedef struct s_list$/;"	s
 save_remains	libft/get_next_line/get_next_line.c	/^static char	*save_remains(char *str)$/;"	f	file:
