@@ -6,7 +6,7 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 14:24:50 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/05/24 18:29:59 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/05/24 18:35:19 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ static void	pipe_to_pipe(int *pip_fd1, char **argv, int i, char **envp)
 	}
 	else if (i++)
 	{
+		wait(NULL);
 		close(pip_fd1[0]);
 		if (argv[i + 2])
 			pipe_to_pipe(pip_fd2, argv, i, envp);

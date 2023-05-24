@@ -6,7 +6,7 @@
 #    By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/24 19:51:17 by ffornes-          #+#    #+#              #
-#    Updated: 2023/05/24 16:50:39 by ffornes-         ###   ########.fr        #
+#    Updated: 2023/05/24 18:35:57 by ffornes-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ LIBFT = $(addprefix $(LIBFT_DIR), $(LIBFT_FILE))
 ###############################################################################
 
 SRCS_DIR = srcs/
-SRC_FILES =	 pipex_bonus.c get_path.c error_handle.c pipex_utils.c
+SRC_FILES =	 pipex.c get_path.c error_handle.c pipex_utils.c
 
 ###############################################################################
 #									OBJS									  #

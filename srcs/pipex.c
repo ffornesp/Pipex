@@ -6,7 +6,7 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 14:24:50 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/05/24 18:16:11 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/05/24 18:34:38 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,8 @@ static void	child_p(int *pip_fd, char **argv, char **envp)
 	if (infile_fd < 0)
 		error_handle(argv[1], 1);
 	close(pip_fd[0]);
-	dup2(infile_fd, 0);
-	dup2(pip_fd[1], 1);
+	dup_and_close(infile_fd, pip_fd[1]);
 	exec_cmd(argv[2], envp);
-	close(pip_fd[1]);
-	close(infile_fd);
 	return ;
 }
 
@@ -47,10 +44,12 @@ static void	parent_p(int *pip_fd, char **argv, char **envp)
 		outfile_fd = open(argv[4], O_TRUNC | O_CREAT | O_RDWR, 00644);
 		if (outfile_fd < 0)
 			error_handle(argv[4], 2);
-		dup2(pip_fd[0], 0);
-		dup2(outfile_fd, 1);
-		exec_cmd(argv[3], envp);
+		if (dup2(pip_fd[0], 0) < 0)
+			error_handle(NULL, -1);
+		if (dup2(outfile_fd, 1) < 0)
+			error_handle(NULL, -1);
 		close(outfile_fd);
+		exec_cmd(argv[3], envp);
 	}
 	close(pip_fd[0]);
 	wait(NULL);
@@ -81,6 +80,5 @@ int	main(int argc, char *argv[], char *envp[])
 		child_p(pip_fd, argv, envp);
 	else
 		parent_p(pip_fd, argv, envp);
-	wait(NULL);
 	return (0);
 }
