@@ -6,7 +6,7 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 14:24:50 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/05/24 14:26:46 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/05/24 18:29:59 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,108 +19,90 @@
 #include <stdlib.h>
 #include <string.h>
 
-static void	init_p(int *pip_fd, char **argv, char **envp)
+static void	file_to_pipe(int *pip_fd, char *argv, char **envp, char *file)
 {
-	int		infile_fd;
-	char	**cmd;
-	char	*path;
+	int	infile_fd;
 
-	infile_fd = open(argv[1], O_RDONLY);
-	if (infile_fd < 0)
-		error_handle(argv[1], 1);
 	close(pip_fd[0]);
-	dup2(infile_fd, 0);
-	dup2(pip_fd[1], 1);
-	cmd = ft_split(argv[2], ' ');
-	path = get_path(cmd, argv[2], envp);
-	if (execve(path, cmd, envp) < 0)
-		error_handle(NULL, -1);
-	free(path);
-	close(pip_fd[1]);
-	close(infile_fd);
+	infile_fd = open(file, O_RDONLY);
+	if (infile_fd < 0)
+		error_handle(file, 1);
+	dup_and_close(infile_fd, pip_fd[1]);
+	exec_cmd(argv, envp);
 }
 
-static void	finish_p(int *pip_fd, int i, char **argv, char **envp)
+static void	pipe_to_file(int *pip_fd, char *argv, char **envp, char *file)
 {
-	int		outfile_fd;
-	char	**cmd;
-	char	*path;
-	int		pid;
+	int	outfile_fd;
+	int	pid;
 
 	pid = fork();
+	if (pid < 0)
+		error_handle(NULL, -1);
 	close(pip_fd[1]);
 	if (pid == 0)
 	{
-		outfile_fd = open(argv[i + 1], O_TRUNC | O_CREAT | O_RDWR, 00644);
+		outfile_fd = open(file, O_TRUNC | O_CREAT | O_RDWR, 00644);
 		if (outfile_fd < 0)
-			error_handle(argv[i + 1], 2);
-		dup2(pip_fd[0], 0);
-		dup2(outfile_fd, 1);
-		cmd = ft_split(argv[i], ' ');
-		path = get_path(cmd, argv[i], envp);
-		if (execve(path, cmd, envp) < 0)
+			error_handle(file, 2);
+		if (dup2(pip_fd[0], 0) < 0)
 			error_handle(NULL, -1);
-		free(path);
+		if (dup2(outfile_fd, 1) < 0)
+			error_handle(NULL, -1);
+		exec_cmd(argv, envp);
 		close(outfile_fd);
 	}
 	close(pip_fd[0]);
-	wait(NULL);
 }
 
-static void	process_p(int *pip_fd1, int *pip_fd2, char *argv, char **envp)
+static void	pipe_to_pipe(int *pip_fd1, char **argv, int i, char **envp)
 {
-	char	**cmd;
-	char	*path;
-	int		pid;
+	int	pip_fd2[2];
+	int	pid;
 
+	if (pipe(pip_fd2) < 0)
+		error_handle(NULL, -1);
+	close(pip_fd1[1]);
 	pid = fork();
-	close(pip_fd2[0]);
+	if (pid < 0)
+		error_handle(NULL, -1);
 	if (pid == 0)
 	{
-		dup2(pip_fd1[0], 0);
-		dup2(pip_fd2[1], 1);
-		cmd = ft_split(argv, ' ');
-		path = get_path(cmd, argv, envp);
-		if (execve(path, cmd, envp) < 0)
-			error_handle(NULL, -1);
-		free(path);
+		close(pip_fd2[0]);
+		dup_and_close(pip_fd1[0], pip_fd2[1]);
+		exec_cmd(argv[i], envp);
 	}
-	close(pip_fd1[0]);
-	close(pip_fd2[1]);
+	else if (i++)
+	{
+		close(pip_fd1[0]);
+		if (argv[i + 2])
+			pipe_to_pipe(pip_fd2, argv, i, envp);
+		else
+			pipe_to_file(pip_fd2, argv[i], envp, argv[i + 1]);
+	}
 }
 
 static void	pipe_handler(char **argv, char **envp)
 {
 	int	i;
 	int	pid;
-	int	pip_fd1[2];
-	int	pip_fd2[2];
+	int	pip_fd[2];
 
 	i = 3;
-	if (pipe(pip_fd1) < 0)
+	if (pipe(pip_fd) < 0)
 		error_handle(NULL, -1);
 	pid = fork();
 	if (pid < 0)
 		error_handle(NULL, -1);
 	if (pid == 0)
-		init_p(pip_fd1, argv, envp);
-	else if (argv[i + 2])
-	{
-		if (pipe(pip_fd2) < 0)
-			error_handle(NULL, -1);
-		pid = fork();
-		close(pip_fd1[1]);
-		if (pid == 0)
-			process_p(pip_fd1, pip_fd2, argv[i], envp);
-		i++;
-		if (pid != 0)
-		{
-			close(pip_fd1[0]);
-			finish_p(pip_fd2, i, argv, envp);
-		}
-	}
+		file_to_pipe(pip_fd, argv[2], envp, argv[1]);
 	else
-		finish_p(pip_fd1, i, argv, envp);
+	{
+		if (argv[i + 2])
+			pipe_to_pipe(pip_fd, argv, i, envp);
+		else
+			pipe_to_file(pip_fd, argv[i], envp, argv[i + 1]);
+	}
 }
 
 int	main(int argc, char *argv[], char *envp[])
@@ -129,7 +111,7 @@ int	main(int argc, char *argv[], char *envp[])
 
 	i = 0;
 	if (argc < 5)
-		error_handle(NULL, 0);
+		error_usage();
 	while (i < argc)
 	{
 		if (*argv[i] == '\0' || argv[i] == NULL)

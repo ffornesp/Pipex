@@ -6,7 +6,7 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 16:39:57 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/05/23 19:16:06 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/05/24 18:31:07 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,18 @@ static char	**join_path_cmd(char **path, char **cmd)
 	return (path);
 }
 
+static void	check_path_output(char **out, char **line_cmd)
+{
+	char	*aux;
+
+	aux = *out;
+	if (!aux)
+	{
+		free(aux);
+		error_handle(*line_cmd, 3);
+	}
+}
+
 char	*get_path(char **cmd, char *line_cmd, char **envp)
 {
 	int		i;
@@ -66,7 +78,7 @@ char	*get_path(char **cmd, char *line_cmd, char **envp)
 	{
 		aux = ft_strnstr(envp[i], "PATH", 4);
 		if (aux != NULL)
-			break;
+			break ;
 		i++;
 	}
 	if (!aux)
@@ -77,10 +89,6 @@ char	*get_path(char **cmd, char *line_cmd, char **envp)
 	out = NULL;
 	path = join_path_cmd(path, cmd);
 	out = get_cmd_path(path);
-	if (!out)
-	{
-		free(out);
-		error_handle(line_cmd, 3);
-	}
+	check_path_output(&out, &line_cmd);
 	return (out);
 }

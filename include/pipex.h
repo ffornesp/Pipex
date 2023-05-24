@@ -6,14 +6,17 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 14:38:41 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/05/23 17:54:27 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/05/24 18:26:41 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPEX_H
 # define PIPEX_H
 
+void	error_usage(void);
 void	error_handle(char *filename, int id);
+void	exec_cmd(char *argv, char **envp);
+void	dup_and_close(int fd_1, int fd_2);
 char	*get_path(char **cmd, char *line_cmd, char **envp);
 
 #endif
