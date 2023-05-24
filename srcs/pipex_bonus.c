@@ -6,7 +6,7 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 14:24:50 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/05/24 18:52:34 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/05/24 18:56:50 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ static void	file_to_pipe(int *pip_fd, char *argv, char **envp, char *file)
 	pid = fork();
 	if (pid < 0)
 		error_handle(NULL, -1);
+	wait(NULL);
 	if (pid == 0)
 	{
 		close(pip_fd[0]);
@@ -44,10 +45,11 @@ static void	pipe_to_file(int *pip_fd, char *argv, char **envp, char *file)
 	int	outfile_fd;
 	int	pid;
 
+	close(pip_fd[1]);
 	pid = fork();
 	if (pid < 0)
 		error_handle(NULL, -1);
-	close(pip_fd[1]);
+	wait(NULL);
 	if (pid == 0)
 	{
 		outfile_fd = open(file, O_TRUNC | O_CREAT | O_RDWR, 00644);
