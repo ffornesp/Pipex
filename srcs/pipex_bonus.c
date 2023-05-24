@@ -6,7 +6,7 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 14:24:50 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/05/24 18:35:19 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/05/24 18:52:34 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,21 @@
 static void	file_to_pipe(int *pip_fd, char *argv, char **envp, char *file)
 {
 	int	infile_fd;
+	int	pid;
 
-	close(pip_fd[0]);
-	infile_fd = open(file, O_RDONLY);
-	if (infile_fd < 0)
-		error_handle(file, 1);
-	dup_and_close(infile_fd, pip_fd[1]);
-	exec_cmd(argv, envp);
+	pid = fork();
+	if (pid < 0)
+		error_handle(NULL, -1);
+	if (pid == 0)
+	{
+		close(pip_fd[0]);
+		infile_fd = open(file, O_RDONLY);
+		if (infile_fd < 0)
+			error_handle(file, 1);
+		dup_and_close(infile_fd, pip_fd[1]);
+		exec_cmd(argv, envp);
+		return ;
+	}
 }
 
 static void	pipe_to_file(int *pip_fd, char *argv, char **envp, char *file)
@@ -45,12 +53,9 @@ static void	pipe_to_file(int *pip_fd, char *argv, char **envp, char *file)
 		outfile_fd = open(file, O_TRUNC | O_CREAT | O_RDWR, 00644);
 		if (outfile_fd < 0)
 			error_handle(file, 2);
-		if (dup2(pip_fd[0], 0) < 0)
-			error_handle(NULL, -1);
-		if (dup2(outfile_fd, 1) < 0)
-			error_handle(NULL, -1);
+		dup_and_close(pip_fd[0], outfile_fd);
 		exec_cmd(argv, envp);
-		close(outfile_fd);
+		return ;
 	}
 	close(pip_fd[0]);
 }
@@ -71,39 +76,30 @@ static void	pipe_to_pipe(int *pip_fd1, char **argv, int i, char **envp)
 		close(pip_fd2[0]);
 		dup_and_close(pip_fd1[0], pip_fd2[1]);
 		exec_cmd(argv[i], envp);
+		return ;
 	}
-	else if (i++)
-	{
-		wait(NULL);
-		close(pip_fd1[0]);
-		if (argv[i + 2])
-			pipe_to_pipe(pip_fd2, argv, i, envp);
-		else
-			pipe_to_file(pip_fd2, argv[i], envp, argv[i + 1]);
-	}
+	if (wait(NULL) != 0)
+		i++;
+	close(pip_fd1[0]);
+	if (argv[i + 2])
+		pipe_to_pipe(pip_fd2, argv, i, envp);
+	else
+		pipe_to_file(pip_fd2, argv[i], envp, argv[i + 1]);
 }
 
 static void	pipe_handler(char **argv, char **envp)
 {
 	int	i;
-	int	pid;
 	int	pip_fd[2];
 
 	i = 3;
 	if (pipe(pip_fd) < 0)
 		error_handle(NULL, -1);
-	pid = fork();
-	if (pid < 0)
-		error_handle(NULL, -1);
-	if (pid == 0)
-		file_to_pipe(pip_fd, argv[2], envp, argv[1]);
+	file_to_pipe(pip_fd, argv[2], envp, argv[1]);
+	if (argv[i + 2])
+		pipe_to_pipe(pip_fd, argv, i, envp);
 	else
-	{
-		if (argv[i + 2])
-			pipe_to_pipe(pip_fd, argv, i, envp);
-		else
-			pipe_to_file(pip_fd, argv[i], envp, argv[i + 1]);
-	}
+		pipe_to_file(pip_fd, argv[i], envp, argv[i + 1]);
 }
 
 int	main(int argc, char *argv[], char *envp[])
