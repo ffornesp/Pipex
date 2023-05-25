@@ -1,27 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   heredoc_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/22 14:24:50 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/05/25 09:39:33 by ffornes-         ###   ########.fr       */
+/*   Created: 2023/05/25 09:31:36 by ffornes-          #+#    #+#             */
+/*   Updated: 2023/05/25 10:41:00 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "pipex.h"
 #include "libft.h"
 #include "ft_printf.h"
 #include "get_next_line.h"
-#include "pipex.h"
 #include <fcntl.h>
 #include <unistd.h>
 #include <stdlib.h>
-#include <string.h>
 
-static void	file_to_pipe(int *pip_fd, char *argv, char **envp, char *file)
+static void	hdoc_to_pipe(int *pip_fd, char *file)
 {
-	int	infile_fd;
 	int	pid;
 
 	pid = fork();
@@ -31,12 +29,9 @@ static void	file_to_pipe(int *pip_fd, char *argv, char **envp, char *file)
 	if (pid == 0)
 	{
 		close(pip_fd[0]);
-		infile_fd = open(file, O_RDONLY);
-		if (infile_fd < 0)
-			error_handle(file, 1);
-		dup_and_close(infile_fd, pip_fd[1]);
-		exec_cmd(argv, envp);
-		return ;
+		write(pip_fd[1], file, ft_strlen(file));
+		close(pip_fd[1]);
+		exit(0);
 	}
 }
 
@@ -52,12 +47,12 @@ static void	pipe_to_file(int *pip_fd, char *argv, char **envp, char *file)
 	wait(NULL);
 	if (pid == 0)
 	{
-		outfile_fd = open(file, O_TRUNC | O_CREAT | O_RDWR, 00644);
+		outfile_fd = open(file, O_CREAT | O_RDWR, 00644);
 		if (outfile_fd < 0)
 			error_handle(file, 2);
 		dup_and_close(pip_fd[0], outfile_fd);
 		exec_cmd(argv, envp);
-		return ;
+		exit(0);
 	}
 	close(pip_fd[0]);
 }
@@ -78,7 +73,7 @@ static void	pipe_to_pipe(int *pip_fd1, char **argv, int i, char **envp)
 		close(pip_fd2[0]);
 		dup_and_close(pip_fd1[0], pip_fd2[1]);
 		exec_cmd(argv[i], envp);
-		return ;
+		exit(0);
 	}
 	if (wait(NULL) != 0)
 		i++;
@@ -89,7 +84,7 @@ static void	pipe_to_pipe(int *pip_fd1, char **argv, int i, char **envp)
 		pipe_to_file(pip_fd2, argv[i], envp, argv[i + 1]);
 }
 
-static void	pipe_handler(char **argv, char **envp)
+static void	here_doc_handler(char **argv, char **envp, char *hdoc)
 {
 	int	i;
 	int	pip_fd[2];
@@ -97,29 +92,30 @@ static void	pipe_handler(char **argv, char **envp)
 	i = 3;
 	if (pipe(pip_fd) < 0)
 		error_handle(NULL, -1);
-	file_to_pipe(pip_fd, argv[2], envp, argv[1]);
+	hdoc_to_pipe(pip_fd, hdoc);
 	if (argv[i + 2])
 		pipe_to_pipe(pip_fd, argv, i, envp);
 	else
 		pipe_to_file(pip_fd, argv[i], envp, argv[i + 1]);
 }
 
-int	main(int argc, char *argv[], char *envp[])
+void	here_doc_init(char **argv, char **envp)
 {
-	int		i;
+	char	*input;
+	char	*line;
+	char	*aux;
 
-	i = 0;
-	if (argc < 5)
-		error_usage();
-	while (i < argc)
+	input = ft_strdup("");
+	line = get_next_line(0);
+	while (line && ft_strncmp(line, argv[2], ft_strlen(argv[2])))
 	{
-		if (*argv[i] == '\0' || argv[i] == NULL)
-			error_handle("Invalid arguments\n", 4);
-		i++;
+		aux = input;
+		input = ft_strjoin(input, line);
+		free(aux);
+		free(line);
+		line = get_next_line(0);
 	}
-	if (!ft_strncmp(argv[1], "here_doc", 8))
-		here_doc_init(argv, envp);
-	else
-		pipe_handler(argv, envp);
-	return (0);
+	free(line);
+	here_doc_handler(argv, envp, input);
+	free(input);
 }
