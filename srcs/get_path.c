@@ -6,7 +6,7 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 16:39:57 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/05/25 15:00:31 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/05/25 15:17:03 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,14 +62,7 @@ static void	check_path_output(char **out, char **line_cmd)
 	if (!aux)
 	{
 		free(aux);
-		if (ft_strchr(*line_cmd, '\''))
-		{
-			ft_strtrim(*line_cmd, "\'");
-			error_handle(*line_cmd, 3);
-			free(*line_cmd);
-		}
-		else
-			error_handle(*line_cmd, 3);
+		error_handle(*line_cmd, 3);
 	}
 }
 
