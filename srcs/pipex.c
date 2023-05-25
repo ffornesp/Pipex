@@ -6,7 +6,7 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 14:24:50 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/05/25 13:15:02 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/05/25 15:20:51 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	child_p(int *pip_fd, char **argv, char **envp)
 	close(pip_fd[0]);
 	dup_and_close(infile_fd, pip_fd[1]);
 	exec_cmd(argv[2], envp);
-	return ;
+	exit(0);
 }
 
 static void	parent_p(int *pip_fd, char **argv, char **envp)
@@ -52,7 +52,6 @@ static void	parent_p(int *pip_fd, char **argv, char **envp)
 	close(pip_fd[0]);
 	wait(NULL);
 	wait(NULL);
-	return ;
 }
 
 int	main(int argc, char *argv[], char *envp[])
