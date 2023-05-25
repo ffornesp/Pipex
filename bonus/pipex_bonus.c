@@ -6,7 +6,7 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 14:24:50 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/05/25 12:18:33 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/05/25 15:20:02 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	file_to_pipe(int *pip_fd, char *argv, char **envp, char *file)
 			error_handle(file, 1);
 		dup_and_close(infile_fd, pip_fd[1]);
 		exec_cmd(argv, envp);
-		return ;
+		exit(0);
 	}
 }
 
@@ -56,7 +56,7 @@ static void	pipe_to_file(int *pip_fd, char *argv, char **envp, char *file)
 			error_handle(file, 2);
 		dup_and_close(pip_fd[0], outfile_fd);
 		exec_cmd(argv, envp);
-		return ;
+		exit(0);
 	}
 	close(pip_fd[0]);
 }
@@ -77,7 +77,7 @@ static void	pipe_to_pipe(int *pip_fd1, char **argv, int i, char **envp)
 		close(pip_fd2[0]);
 		dup_and_close(pip_fd1[0], pip_fd2[1]);
 		exec_cmd(argv[i], envp);
-		return ;
+		exit(0);
 	}
 	if (wait(NULL) != 0)
 		i++;
