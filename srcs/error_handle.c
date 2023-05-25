@@ -6,7 +6,7 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 16:12:30 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/05/24 18:16:27 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/05/25 13:17:56 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	error_usage(void)
 
 void	error_handle(char *filename, int id)
 {
-	ft_putstr_fd("pipex: ", 2);
+	ft_putstr_fd("bash: ", 2);
 	if (id == 1 && access(filename, R_OK) < 0)
 		perror(filename);
 	else if (id == 2 && access(filename, W_OK) < 0)
@@ -31,7 +31,7 @@ void	error_handle(char *filename, int id)
 	else if (id == 3)
 	{
 		ft_putstr_fd(filename, 2);
-		ft_putstr_fd(": Command not found\n", 2);
+		ft_putstr_fd(": command not found\n", 2);
 		exit(127);
 	}
 	else if (id == 4)

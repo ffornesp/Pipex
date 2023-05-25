@@ -6,7 +6,7 @@
 #    By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/24 19:51:17 by ffornes-          #+#    #+#              #
-#    Updated: 2023/05/25 12:20:09 by ffornes-         ###   ########.fr        #
+#    Updated: 2023/05/25 12:54:56 by ffornes-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -63,18 +63,18 @@ INCLUDE  = -I ./include/ -I ./libft/include/
 #									RULES									  #
 ###############################################################################
 
-all: 		$(NAME) $(HDRS)
+all: 		m_libft $(NAME)
 
-bonus:		$(NAME_BONUS) $(HDRS_BONUS)
+bonus:		m_libft $(NAME_BONUS)
 
 m_libft:
 			@make -C $(LIBFT_DIR)
 
-$(NAME):	m_libft $(OBJS_DIR) $(OBJS)
-			@$(CC) $(INCLUDE) $(OBJS) -Llibft/ -lft -o $@
+$(NAME): $(OBJS_DIR) $(OBJS)
+			$(CC) $(INCLUDE) $(OBJS) -Llibft/ -lft -o $@
 
-$(NAME_BONUS):	m_libft $(OBJS_DIR) $(OBJS_BONUS_PS) $(OBJS_BONUS_DIR) $(OBJS_BONUS)
-				@$(CC) $(INCLUDE) $(OBJS_BONUS) $(OBJS_BONUS_PS) -Llibft/ -lft -o $@			
+$(NAME_BONUS):	$(OBJS_DIR) $(OBJS_BONUS_PS) $(OBJS_BONUS_DIR) $(OBJS_BONUS)
+				$(CC) $(INCLUDE) $(OBJS_BONUS) $(OBJS_BONUS_PS) -Llibft/ -lft -o $@			
 
 $(OBJS_DIR):
 						@mkdir $@
@@ -82,10 +82,10 @@ $(OBJS_DIR):
 $(OBJS_BONUS_DIR):
 						@mkdir $@
 
-$(OBJS_DIR)%.o:	$(SRCS_DIR)%.c $(HDRS)
+$(OBJS_DIR)%.o:	$(SRCS_DIR)%.c $(LIBFT) $(HDRS)
 				$(CC) $(CFLAGS) -c $< -o $@ $(INCLUDE)
 
-$(OBJS_BONUS_DIR)%.o:	$(SRCS_BONUS_DIR)%.c $(HDRS_BONUS)
+$(OBJS_BONUS_DIR)%.o:	$(SRCS_BONUS_DIR)%.c $(LIBFT) $(HDRS_BONUS)
 				$(CC) $(CFLAGS) -c $< -o $@ $(INCLUDE)
 
 clean: 		
@@ -101,4 +101,4 @@ fclean: 	clean
 re:			fclean all
 			
 
-.PHONY: all clean fclean re bonus
+.PHONY: all clean fclean re bonus m_libft

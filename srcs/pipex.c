@@ -6,7 +6,7 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 14:24:50 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/05/25 12:15:55 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/05/25 13:15:02 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ static void	parent_p(int *pip_fd, char **argv, char **envp)
 		exec_cmd(argv[3], envp);
 	}
 	close(pip_fd[0]);
+	wait(NULL);
 	wait(NULL);
 	return ;
 }
