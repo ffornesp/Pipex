@@ -6,13 +6,12 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 09:31:36 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/05/25 10:41:00 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/05/25 11:37:58 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 #include "libft.h"
-#include "ft_printf.h"
 #include "get_next_line.h"
 #include <fcntl.h>
 #include <unistd.h>
@@ -31,8 +30,10 @@ static void	hdoc_to_pipe(int *pip_fd, char *file)
 		close(pip_fd[0]);
 		write(pip_fd[1], file, ft_strlen(file));
 		close(pip_fd[1]);
+		free(file);
 		exit(0);
 	}
+	free(file);
 }
 
 static void	pipe_to_file(int *pip_fd, char *argv, char **envp, char *file)
@@ -47,7 +48,7 @@ static void	pipe_to_file(int *pip_fd, char *argv, char **envp, char *file)
 	wait(NULL);
 	if (pid == 0)
 	{
-		outfile_fd = open(file, O_CREAT | O_RDWR, 00644);
+		outfile_fd = open(file, O_APPEND | O_CREAT | O_RDWR, 00644);
 		if (outfile_fd < 0)
 			error_handle(file, 2);
 		dup_and_close(pip_fd[0], outfile_fd);
@@ -104,11 +105,16 @@ void	here_doc_init(char **argv, char **envp)
 	char	*input;
 	char	*line;
 	char	*aux;
+	char	*end;
 
 	input = ft_strdup("");
+	end = argv[2];
+	end = ft_strjoin(end, "\n");
 	line = get_next_line(0);
-	while (line && ft_strncmp(line, argv[2], ft_strlen(argv[2])))
+	while (line)
 	{
+		if (!ft_strncmp(line, end, ft_strlen(end)))
+			break ;
 		aux = input;
 		input = ft_strjoin(input, line);
 		free(aux);
@@ -116,6 +122,6 @@ void	here_doc_init(char **argv, char **envp)
 		line = get_next_line(0);
 	}
 	free(line);
+	free(end);
 	here_doc_handler(argv, envp, input);
-	free(input);
 }

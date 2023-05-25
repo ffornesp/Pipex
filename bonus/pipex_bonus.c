@@ -6,14 +6,13 @@
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 14:24:50 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/05/25 09:39:33 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/05/25 12:18:33 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "ft_printf.h"
-#include "get_next_line.h"
 #include "pipex.h"
+#include "pipex_bonus.h"
 #include <fcntl.h>
 #include <unistd.h>
 #include <stdlib.h>

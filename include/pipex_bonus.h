@@ -1,23 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   pipex_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ffornes- <ffornes-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 14:38:41 by ffornes-          #+#    #+#             */
-/*   Updated: 2023/05/25 12:16:32 by ffornes-         ###   ########.fr       */
+/*   Updated: 2023/05/25 12:18:13 by ffornes-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#ifndef PIPEX_BONUS_H
+# define PIPEX_BONUS_H
 
-void	error_usage(void);
-void	error_handle(char *filename, int id);
-void	exec_cmd(char *argv, char **envp);
-void	dup_and_close(int fd_1, int fd_2);
-char	*get_path(char **cmd, char *line_cmd, char **envp);
 void	here_doc_init(char **argv, char **envp);
 
 #endif
